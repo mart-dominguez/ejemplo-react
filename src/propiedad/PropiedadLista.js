@@ -7,10 +7,16 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 
-function PropiedadLista() {
+function PropiedadLista({lista}) {
 
     return (
         <div>
+                          <Typography variant="h3" gutterBottom>
+                Listado
+                </Typography>
+          <ul>
+          {lista.map( f => <li key={f.id} >{f.nombre}</li>)}
+          </ul>
         <Fab color="primary" aria-label="add" >
           <AddIcon />
         </Fab>

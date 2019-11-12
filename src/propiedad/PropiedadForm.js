@@ -9,11 +9,16 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 
-function PropiedadForm() {
-    const [value, setValue] = useState('1');
+function PropiedadForm({agregarPropiedad}) {
+    const [propiedad, setPropiedad] = useState({nombre:'',descripcion:'',precio:0});
 
   const handleChange = event => {
-    setValue(event.target.value);
+    event.persist();
+    // setValue(event.target.value);
+    const clave = event.target.name;
+    const valor = event.target.value;
+    console.log(clave,valor);
+    setPropiedad( propiedad => ({...propiedad, [clave]: valor}));
   };
 
   const doGuardar = () => {
@@ -21,31 +26,33 @@ function PropiedadForm() {
       if (window.fxAndroid){
           window.fxAndroid.showToast("THola Guardar");
       };
+      agregarPropiedad(propiedad);
   }
 
     return (
-        <Grid container spacing={3}>
+      <form>
+        <Grid container spacing={3} style={{'flexGrow' : 1}}>
                 <Grid item   xs={12} sm={12}>
-                <Typography >
-                    Nueva Propiedad
+                <Typography variant="h3" gutterBottom>
+                Nueva Propiedad
                 </Typography>
                 </Grid>
                 <Grid item  xs={12} sm={12}>
-                    <TextField id="time" type="text" label="Titulo" fullWidth={true}  ></TextField>
+                    <TextField id="nombre" name="nombre" type="text" label="Titulo" fullWidth={true} value={propiedad.nombre} onChange={handleChange} ></TextField>
                 </Grid>
                 <Grid item  xs={12} sm={12}>
-                    <TextField id="time1" type="text" label="Descripcion" fullWidth={true}  ></TextField>
+                    <TextField id="desc" name="descripcion" type="text" label="Descripcion" fullWidth={true} value={propiedad.descripcion} ></TextField>
                 </Grid>
                 <Grid item xs={12}  sm={6}>
-                    <TextField id="time2" type="currency" label="Precio por noche" fullWidth={true} ></TextField>
+                    <TextField id="time2" name="precio" type="text" label="Precio por noche" fullWidth={true} ></TextField>
                 </Grid>
                 <Grid item xs={12}  sm={6}>
-                    <TextField id="time2" type="currency" label="Impuestos" fullWidth={true} ></TextField>
+                    <TextField id="time3" type="text" label="Impuestos" fullWidth={true} ></TextField>
                 </Grid>
                 <Grid item xs={12}  sm={12}>
                 <FormControl component="fieldset">
       <FormLabel component="legend">labelPlacement</FormLabel>
-      <RadioGroup aria-label="position" name="position" value={value} onChange={handleChange} row>
+      <RadioGroup aria-label="position" name="position" onChange={handleChange} row>
         <FormControlLabel
           value="1"
           control={<Radio color="primary" />}
@@ -73,6 +80,7 @@ function PropiedadForm() {
       </Button>                
       </Grid>
         </Grid>
+        </form>        
     );
 }
 
